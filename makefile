@@ -1,5 +1,6 @@
 comp: main.o algorithms.o hash.o bstree.o rbtree.o utils.o
 	gcc -g -Wall -pedantic main.o algorithms.o hash.o bstree.o rbtree.o utils.o -o comp
+	rm -f *.o
 main.o: main.c header.h
 	gcc -c -Wall -pedantic main.c -o main.o
 algorithms.o: algorithms.c
