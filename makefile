@@ -1,12 +1,14 @@
-comp: main.o sortalgs.o hashsort.o bstree.o rbtree.o
-	gcc -g -Wall -pedantic main.o sortalgs.o hashsort.o bstree.o rbtree.o -o comp
-main.o: main.c
+comp: main.o algorithms.o hash.o bstree.o rbtree.o utils.o
+	gcc -g -Wall -pedantic main.o algorithms.o hash.o bstree.o rbtree.o utils.o -o comp
+main.o: main.c header.h
 	gcc -c -Wall -pedantic main.c -o main.o
-sortalgs.o: sortalgs.c
-	gcc -c -Wall -pedantic sortalgs.c -o sortalgs.o
-hashsort.o: hashsort.c
-	gcc -c -Wall -pedantic hashsort.c -o hashsort.o
+algorithms.o: algorithms.c
+	gcc -c -Wall -pedantic algorithms.c -o algorithms.o
+hash.o: hash.c
+	gcc -c -Wall -pedantic hash.c -o hash.o
 bstree.o: bstree.c
 	gcc -c -Wall -pedantic bstree.c -o bstree.o
 rbtree.o: rbtree.c
 	gcc -c -Wall -pedantic rbtree.c -o rbtree.o
+utils.o: utils.c
+	gcc -c -Wall -pedantic utils.c -o utils.o
