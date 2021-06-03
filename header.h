@@ -1,4 +1,6 @@
-int assign,cpy,cmp;
+#define CRANGE 100
+
+long assign,cpy,cmp;
 
 // utils functions
 int * createNumsArray(int);
@@ -16,5 +18,6 @@ int originalD(int *, int);
 void noSort(int *, int);
 void insertionSort(int*,int);
 void mergeSortI(int *, int);
+void countSort(int *, int);
 
 
