@@ -1,5 +1,6 @@
 #define CRANGE 100
 
+int M;
 long assign,cpy,cmp;
 
 // utils functions
@@ -19,5 +20,9 @@ void noSort(int *, int);
 void insertionSort(int*,int);
 void mergeSortI(int *, int);
 void countSort(int *, int);
+int makehash(int *, int );
+int makeBST(int *, int);
+int makeRBT();
+
 
 

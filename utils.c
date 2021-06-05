@@ -19,7 +19,7 @@ int *createNumsArray ( int N ) {
         sum += arr [ i ];
     }
     printf ( " Random numbers array created (Sum is: %d, Avg is: %d):\n", sum, sum/N );
-    printArray ( arr, N );
+    //printArray ( arr, N );
     return arr;
 }
 

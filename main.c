@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "header.h"
 
 /*****************************************************************
@@ -42,14 +43,17 @@ int main () {
     printf ( "*********************************** Using Count Sort *************************************\n" );
     useStrategy ( countSort, countUniques, arr, N );
 
- /* printf ( "*********************************** Using Hash Table *************************************\n");
-    useStrategy ( makeHash, countUniques, arr, N );  
+    printf ( "*********************************** Using Hash Table *************************************\n");
+    M=1+sqrt(N);
+    useStrategy ( noSort , makehash, arr, N );
 
     printf ( "******************************* Using Binary Search Tree *********************************\n" );
-    useStrategy ( makeBST, countUniques, arr, N );
+    useStrategy ( noSort, makeBST, arr, N );
 
     printf ( "********************************* Using Red Black Tree ***********************************\n" );
-    useStrategy ( makeRBT, countUniques, arr, N );*/
+
+//    makeRBT();
+//    useStrategy ( noSort, makeRBT, arr, N );
 
     free ( arr );
     return 1;
