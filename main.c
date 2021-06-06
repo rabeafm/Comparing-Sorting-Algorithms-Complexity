@@ -44,16 +44,13 @@ int main () {
     useStrategy ( countSort, countUniques, arr, N );
 
     printf ( "*********************************** Using Hash Table *************************************\n");
-    M=1+sqrt(N);
     useStrategy ( noSort , makehash, arr, N );
 
     printf ( "******************************* Using Binary Search Tree *********************************\n" );
-    useStrategy ( noSort, makeBST, arr, N );
+    //useStrategy ( noSort, makeBST, arr, N );
 
     printf ( "********************************* Using Red Black Tree ***********************************\n" );
-
-//    makeRBT();
-//    useStrategy ( noSort, makeRBT, arr, N );
+    //useStrategy ( noSort, makeRBT, arr, N );
 
     free ( arr );
     return 1;

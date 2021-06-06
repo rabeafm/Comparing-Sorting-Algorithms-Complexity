@@ -41,7 +41,7 @@ struct bnode* insert(struct bnode* node, int key){
         node->right = insert(node->right, key);
         return node;
     }
-    return node;
+    return NULL;
 }
 
 void freeTree(struct bnode* node){
@@ -51,6 +51,14 @@ void freeTree(struct bnode* node){
     free(node);
 }
 
+void inborder(struct bnode* trav)
+{
+    if (trav == NULL)
+        return;
+    inborder(trav->left);
+    printf("%d ", trav->key);
+    inborder(trav->right);
+}
 
 int makeBST(int *arr, int N) {
     int i;
@@ -59,6 +67,7 @@ int makeBST(int *arr, int N) {
         root = insert(root,arr[i]);
         assign++; cmp++;
     }
+    inborder(root);
     freeTree(root);
     return bstcnt;
 }

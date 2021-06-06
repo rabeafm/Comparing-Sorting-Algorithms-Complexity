@@ -13,7 +13,7 @@ struct Node
 struct Node **hashArray; 
 
 int hashCode(int k) {
-   return (int) M * fmodf((sqrt(5)-1)*k,1);
+   return (int) HASHSIZE * fmodf((sqrt(5)-1)*k,1);
 }
 
 int insertHash(int key,int data) {
@@ -57,14 +57,15 @@ void freeList(struct Node* n){
 
 void freeHash(struct Node **table){
     int i;
-    for(i=0;i<M;i++)
+    for(i=0;i<HASHSIZE;i++)
         freeList(table[i]);
-
+    free(table);
 }
 
 int makehash(int *arr, int N) {
     int i,cnt=0;
-    hashArray = malloc (M * sizeof(struct Node*));
+    HASHSIZE=1+sqrt(N);
+    hashArray = malloc (HASHSIZE * sizeof(struct Node*));
     assign+=3; cmp++;
     for ( i=0 ; i<N ; i++ ){
         assign++;
