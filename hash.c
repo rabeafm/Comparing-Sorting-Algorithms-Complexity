@@ -4,33 +4,45 @@
 #include <math.h>
 #include "header.h"
 
-struct Node
+struct LinkedNode
 {
     int data;
-    struct Node *next;
+    struct LinkedNode *next;
 };
 
-struct Node **hashArray; 
+struct LinkedNode **hashTable; 
 
+/*****************************************************************
+ *  Recieves int uses multiplication hash function. runs at O(1) *
+ *  @param	k    		integer                                  *
+ *  @return number that represents address in hash table         *
+ ****************************************************************/
 int hashCode(int k) {
    return (int) HASHSIZE * fmodf((sqrt(5)-1)*k,1);
 }
 
+/*****************************************************************
+ *  Recieves key and data adds data to linked list in key address*
+ *  runs at O(sqrt(M))                                           *
+ *  @param	key    		integer represents address               *
+ *  @param	data   		integer to be added                      *
+ *  @return 1 if added 0 if not                                  *
+ ****************************************************************/
 int insertHash(int key,int data) {
-    struct Node *curr;
+    struct LinkedNode *curr;
     cmp++;
-    if(!hashArray[key]){
+    if(!hashTable[key]){
         assign++; cpy++;
-        hashArray[key] = malloc (sizeof(struct Node));
-        hashArray[key]->data=data;
+        hashTable[key] = malloc (sizeof(struct LinkedNode));
+        hashTable[key]->data=data;
         return 1;
     } else {
         cmp++;
-        if(hashArray[key]->data==data){
+        if(hashTable[key]->data==data){
             return 0;
         }
         assign++;
-        curr=hashArray[key];
+        curr=hashTable[key];
         cmp++;
         while(curr->next){
             cmp++;
@@ -42,36 +54,52 @@ int insertHash(int key,int data) {
             cmp++;
         }
         assign++;
-        curr->next = malloc (sizeof(struct Node));
+        curr->next = malloc (sizeof(struct LinkedNode));
         cpy++;
         curr->next->data=data;
         return 1;
     }
 }
 
-void freeList(struct Node* n){
-    if(n==NULL) return;
-    freeList(n->next);
-    free(n);    
+/*****************************************************************
+ *  Runs on the linked list frees every node.runs at O(sqrt(M))  *
+ *  @param	node    		Array of linked lists                *
+ ****************************************************************/
+void freeList(struct LinkedNode* node){
+    if(node==NULL) return;
+    freeList(node->next);
+    free(node);    
 }
 
-void freeHash(struct Node **table){
+/*****************************************************************
+ *  Runs on the hash table and frees every row.runs at O(sqrt(M))*
+ *  @param	table			Array of linked lists                *
+ ****************************************************************/
+void freeHash ( struct LinkedNode ** table) {
     int i;
-    for(i=0;i<HASHSIZE;i++)
-        freeList(table[i]);
-    free(table);
+    for ( i = 0 ; i < HASHSIZE ; i++ )
+        freeList ( table [ i ] );
 }
 
-int makehash(int *arr, int N) {
-    int i,cnt=0;
-    HASHSIZE=1+sqrt(N);
-    hashArray = malloc (HASHSIZE * sizeof(struct Node*));
+/*****************************************************************
+ *  Receives an array & its length, run on its elements activates*
+ *  the hash function on them and inserts the value in the proper*
+ *  place in the hash table using insertHash, runs at O(n).      *
+ *  @param	arr				An array                             *
+ *  @param	N				length of the array                  *
+ *  @return number of insertion/unique numbers                   *
+ ****************************************************************/
+int makeHash ( int arr[], int N ) {
+    int i, cnt=0;
+    HASHSIZE = 1+sqrt ( CRANGE );
+    hashTable = malloc ( HASHSIZE * sizeof ( struct LinkedNode* ) );
     assign+=3; cmp++;
-    for ( i=0 ; i<N ; i++ ){
+    for ( i=0 ; i<N ; i++ ) {
         assign++;
-        cnt+=insertHash(hashCode(arr[i]),arr[i]);
+        cnt += insertHash ( hashCode ( arr [ i ] ), arr [ i ] );
         assign++; cmp++;
     }
-    freeHash(hashArray);
+    freeHash ( hashTable );
+    free ( hashTable );
     return cnt;
 }

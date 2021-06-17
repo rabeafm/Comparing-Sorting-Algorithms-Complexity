@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <string.h>
 #include "header.h"
 
 /*****************************************************************
+ *  Receives a numbers array and a length, does nothing at O(1). *
+ *  Created to be used as a placeholder in useStrategy function. *  
+ *  @param	arr             Array of numbers                     *
+ *  @param	N				length of the array                  *
+ ****************************************************************/
+void noSort ( int arr[], int N ) {}
+
+/*****************************************************************
  *  Receives an array of numbers, itirates through them counting *
- *  the number of unique numbers in the array at O(n^2).         *
+ *  the number of unique numbers in the array at O(NM).(M=RANGE) *
  *  @param	arr             Array of numbers                     *
  *  @param	N				length of the array                  *
  *  @return number of unique numbers                			 *
@@ -38,53 +47,25 @@ int originalD ( int arr[], int N ) {
 }
 
 /*****************************************************************
- *  Receives a sorted array of numbers, counts number of unique  *
- *  numbers & returns it at O(n).                                *
- *  @param	arr             Array of numbers                     *
- *  @param	N				length of the array                  *
- *  @return number of unique numbers in array                    *
- ****************************************************************/
-int countUniques(int arr[], int N){
-    int i,cnt=1;
-    assign+=2; cmp++;
-    for( i=1 ; i<N ; i++ ){
-        cmp++;
-        if(arr[i]!=arr[i-1]){
-            assign++;
-            cnt++;
-        }
-        assign++; cmp++;
-    }
-    return cnt;
-}
-
-/*****************************************************************
- *  Receives a numbers array and a length, does nothing at O(1). *
- *  Created to be used as a placeholder in useStrategy function. *  
- *  @param	arr             Array of numbers                     *
- *  @param	N				length of the array                  *
- ****************************************************************/
-void noSort(int arr[], int N){}
-
-/*****************************************************************
  *  Receives an array & its length, sorts it at O(n^2).          *
  *  @param	arr				An array                             *
  *  @param	N				length of the array                  *
  ****************************************************************/
-void insertionSort(int arr[], int N){
+void insertionSort ( int arr[], int N ) {
     int j, key, i;
     assign++; cmp++;
-    for ( j=1 ; j<N ; j++ ){
+    for ( j = 1 ; j < N ; j++ ) {
         assign++; cpy++; cmp+=2;
-        key = arr[j];
+        key = arr [ j ];
         i = j-1;
-        while ( i>=0 && arr[i]>key ){
+        while ( i >= 0 && arr [ i ] > key ) {
             cpy++; assign++;
-            arr[i+1] = arr[i];
+            arr [ i+1 ] = arr [ i ];
             i = i-1;
+            cmp++;
         }
         cpy++;
-        arr[i+1] = key;
+        arr [ i+1 ] = key;
         assign++; cmp++;
     }
 }
@@ -100,7 +81,7 @@ void insertionSort(int arr[], int N){
  ****************************************************************/
 void mergeSort ( int arr[], int p, int r ) {
     cmp++;
-    if ( p<r ) {
+    if ( p < r ) {
         assign++;
         int q = (p + r) / 2;
         // Divide & Sort
@@ -119,50 +100,122 @@ void mergeSort ( int arr[], int p, int r ) {
 void mergeSortI ( int arr[], int N ) {
     mergeSort ( arr, 0, N-1 );
 }
+
+/*****************************************************************
+ *  Receives an array & three indexes which define sorted sub    *
+ *  arrays. merges them and creates a sorted array, runs at O(n).*
+ *  @param	arr				An array                             *
+ *  @param	p				left index                           *
+ *  @param	q				mid index                            *
+ *  @param	r				right index                          *
+ ****************************************************************/
+void merge ( int arr[], int p, int q, int r ) {
+    int i, j, k;
+    int n1 = q-p+1;
+    int n2 = r-q;
+    int L [ n1+1 ], R [ n2+1 ];     /* create arrays */
+ 
+    /* Fill data in arrays L[] and R[] */
+    assign += 3; cmp++;
+    for ( i = 0 ; i < n1 ; i++ ) {
+        cpy++;
+        L [ i ] = arr [ p+i ];
+        assign++; cmp++;
+    }
+    assign++; cmp++;
+    for ( j = 0 ; j < n2 ; j++ ) {
+        cpy++;
+        R [ j ] = arr [ q+j+1 ];
+        assign++; cmp++;
+    }
+    cpy += 2;
+    L [ n1 ] = INT_MAX;
+    R [ n2 ] = INT_MAX;
+
+    /* Merge the arrays L[] & R[] into arr[p-r]*/
+    assign += 3; cmp++;
+    for ( i = 0, j = 0, k = p ; k <= r ; k++ ) {
+        cmp++;
+        if ( L [ i ] <= R [ j ] ) {
+            cpy++; assign++;
+            arr [ k ] = L [ i ];
+            i++;
+        } else {
+            cpy++; assign++;
+            arr [ k ] = R [ j ];
+            j++;
+        }
+        assign++; cmp++; 
+    }
+}
+
+/*****************************************************************
+ *  Receives a sorted array of numbers, counts number of unique  *
+ *  numbers & returns it at O(n).                                *
+ *  @param	arr             Array of numbers                     *
+ *  @param	N				length of the array                  *
+ *  @return number of unique numbers in array                    *
+ ****************************************************************/
+int countUniques ( int arr[], int N ) {
+    int i, cnt=1;
+    assign+=2; cmp++;
+    for ( i = 1 ; i < N ; i++ ) {
+        cmp++;
+        if ( arr [ i ] != arr [ i-1 ] ) {
+            assign++;
+            cnt++;
+        }
+        assign++; cmp++;
+    }
+    return cnt;
+}
  
 /*****************************************************************
- *  Receives an array & its length, sorts it at O(n).            *
+ *  Receives an array & its length, counts apearances of each    *
+ *  number in array C, then copies C to input array runs at O(n).*
  *  @param	arr				An array                             *
  *  @param	N				length of the array                  *
  ****************************************************************/
-void countSort(int arr[],int N){
-    int B[N], C[CRANGE+1]; //Arrays B as temporary & C for Counting Appearances
-    int i, j; 
-    
+int countSort(int *arr,int N){
+    int C[CRANGE]; //Array C for temporary Counting
+    int i;
+ 
+    // Initialize C array as 0
     assign++; cmp++;
-    for ( i = 0 ; i <= CRANGE ; i++){        // Initialize count array as 0
-        cpy++;
+    for ( i = 0 ; i < CRANGE ; i++){        
+        assign++;
         C [ i ] = 0;
         assign++; cmp++;
     }
 
+    // Increase C counter cells for given value
     assign++; cmp++;
-    for ( j = 0 ; j < N ; j++ ) {           // Increase counter for given value
+    for ( i = 0 ; i < N ; i++ ) {           
         assign++;
-        C[ arr [ j ] ]++;
-        assign++; cmp++;
-    }
- 
-    assign++; cmp++;
-    for ( i = 1 ; i <= CRANGE ; i++ ) {     // Change count[i] so that count[i] now contains actual position of this character in output array
-        assign++;
-        C[i] += C[i - 1];
-        assign++; cmp++;
-    }
- 
-    assign++; cmp++;
-    for ( j = N-1 ; j>=0 ; j-- ) {          // Build the output character array
-        cpy++;
-        B[C[arr[j]]-1] = arr[j];
-        assign++;
-        C[arr[j]]--;
+        C [ arr [ i ] ]++;
         assign++; cmp++;
     }
 
-    assign++; cmp++;
-    for (i = 0; i<N ; i++){
-        cpy++;
-        arr[i] = B[i];
+    return countCUniques(C,CRANGE);
+}
+
+/*****************************************************************
+ *  Receives an array of ocorrences of numbers, counts none zero *
+ *  cells, runs at O(N), in this case O(M). (M=CRANGE)           *
+ *  @param	arr             Array of numbers                     *
+ *  @param	N				length of the array                  *
+ *  @return number of unique numbers in array                    *
+ ****************************************************************/
+int countCUniques(int arr[], int N){
+    int i,cnt=0;
+    assign+=2; cmp++;
+    for( i=1 ; i < CRANGE ; i++ ){
+        cmp++;
+        if(arr[i]!=0){
+            assign++;
+            cnt++;
+        }
         assign++; cmp++;
     }
+    return cnt;
 }

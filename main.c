@@ -24,8 +24,8 @@ int main () {
 
         /*(shouldn't be larger than 1000000 unless you have patience and a realy good computer):*/
     scanf ( "%d", &N );
-    
     arr = createNumsArray ( N );
+
     printf ( "******************************************************************************************\n" );
 
     printf ( "For an Array of length: %d\n\n", N);
@@ -41,16 +41,13 @@ int main () {
     useStrategy ( mergeSortI, countUniques, arr, N );
 
     printf ( "*********************************** Using Count Sort *************************************\n" );
-    useStrategy ( countSort, countUniques, arr, N );
+    useStrategy ( noSort, countSort, arr, N );
 
     printf ( "*********************************** Using Hash Table *************************************\n");
-    useStrategy ( noSort , makehash, arr, N );
+    useStrategy ( noSort , makeHash, arr, N );
 
     printf ( "******************************* Using Binary Search Tree *********************************\n" );
-    //useStrategy ( noSort, makeBST, arr, N );
-
-    printf ( "********************************* Using Red Black Tree ***********************************\n" );
-    //useStrategy ( noSort, makeRBT, arr, N );
+    useStrategy ( noSort, makeBST, arr, N );
 
     free ( arr );
     return 1;

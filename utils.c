@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
 #include <time.h>
 #include "header.h"
 
@@ -37,54 +36,6 @@ int *cloneNumsArray ( int arr[], int N ) {
         tmparr [ i ] = arr [ i ];
     }
     return tmparr;
-}
-
-/*****************************************************************
- *  Receives an array & three indexes which define sorted sub    *
- *  arrays. merges them and creates a sorted array, runs at O(n).*
- *  @param	arr				An array                             *
- *  @param	p				left index                           *
- *  @param	q				mid index                            *
- *  @param	r				right index                          *
- ****************************************************************/
-void merge(int arr[], int p, int q, int r) {
-    int i, j, k;
-    int n1 = q-p+1;
-    int n2 = r-q;
-    int L [ n1+1 ], R [ n2+1 ];     /* create arrays */
- 
-    /* Fill data in arrays L[] and R[] */
-    assign += 3; cmp++;
-    for ( i = 0 ; i < n1 ; i++ ) {
-        cpy++;
-        L [ i ] = arr [ p+i ];
-        assign++; cmp++;
-    }
-    assign++; cmp++;
-    for ( j = 0 ; j < n2 ; j++ ) {
-        cpy++;
-        R [ j ] = arr [ q+j+1 ];
-        assign++; cmp++;
-    }
-    cpy += 2;
-    L [ n1 ] = INT_MAX;
-    R [ n2 ] = INT_MAX;
-
-    /* Merge the arrays L[] & R[] into arr[p-r]*/
-    assign += 3; cmp++;
-    for ( i = 0, j = 0, k = p ; k <= r ; k++ ) {
-        cmp++;
-        if ( L [ i ] <= R [ j ] ) {
-            cpy++; assign++;
-            arr [ k ] = L [ i ];
-            i++;
-        } else {
-            cpy++; assign++;
-            arr [ k ] = R [ j ];
-            j++;
-        }
-        assign++; cmp++; 
-    }
 }
 
 /*****************************************************************

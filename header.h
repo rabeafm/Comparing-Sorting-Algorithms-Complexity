@@ -16,11 +16,11 @@ void useStrategy ( void ( int *, int ), int ( int *, int ), int *, int );
 void noSort ( int *, int );
 void insertionSort ( int*, int );
 void mergeSortI ( int *, int );
-void countSort ( int *, int );
+int countSort ( int *, int );
 
 // stage 2 functions for counting uniques
 int originalD ( int *, int );
 int countUniques ( int *, int );
-int makehash ( int *, int );
+int countCUniques ( int *, int );
+int makeHash ( int *, int );
 int makeBST ( int *, int );
-int makeRBT ( int *, int );
