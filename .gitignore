@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+comp
+.vscode/settings.json
 
 # Object files
 *.o
